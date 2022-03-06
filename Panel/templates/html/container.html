@@ -1,0 +1,81 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Table 05</title>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <link
+      rel="stylesheet"
+      href="{% static 'panel/css/style-container.css' %}"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <div class="container-cards">
+        <div class="cards" id="">
+          <h2 class="header-card">Details :</h2>
+
+          <div class="body-card">
+            <ul>
+              <li class="list-info-card">
+                <span class="info-card">
+                  Created At : <strong>{{container.created_time}}</strong>
+                </span>
+              </li>
+              <li class="list-info-card">
+                <span class="info-card"
+                  >Name : <strong>{{container.name}}</strong></span
+                >
+              </li>
+              <li class="list-info-card">
+                <span class="info-card">
+                  Platform : <strong>{{container.platform}}</strong>
+                </span>
+              </li>
+              <li class="list-info-card">
+                <span class="info-card"
+                  >Image : <strong>{{container.image}}</strong></span
+                >
+              </li>
+              <li class="list-info-card">
+                <span class="info-card"
+                  >Driver : <strong>{{container.driver}}</strong></span
+                >
+              </li>
+              <li class="list-info-card">
+                <span class="info-card">
+                  Status :
+                  <strong
+                    ><span
+                    class="{%if container.status == 'exited'%} disable {%elif container.status == 'running'%} active {%else%} unkown-state {%endif%}"
+                      >{{container.status}}</span
+                    ></strong
+                  >
+                </span>
+              </li>
+              <li class="list-info-card">
+                <span class="info-card"
+                  >internal restart :
+                  <strong>{{container.restart_count}}</strong></span
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="cards" id="">
+          <h2 class="header-card">Networks :</h2>
+          <div class="body-card"></div>
+        </div>
+        <div class="cards" id="">
+          <h2 class="header-card">Mounts :</h2>
+          <div class="body-card"></div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

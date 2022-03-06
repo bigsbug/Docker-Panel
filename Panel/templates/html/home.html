@@ -1,0 +1,128 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Home</title>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <link rel="stylesheet" href="{% static 'panel/css/style.css' %}" />
+  </head>
+<script>
+  function send_request() {
+    fetch("http://127.0.0.1:8000/start-container/672e6ef06fe328290c0ae19b8d6c97987f4d0ceaaec31dd0d45959ebc957b705")
+  .then(response => {
+    // indicates whether the response is successful (status code 200-299) or not
+    if (!response.ok) {
+      throw new Error(`Request failed with status ${reponse.status}`)
+    }
+    return "WE"
+  })
+}
+</script>
+  <body>
+    <section class="main">
+      <div class="container-body">
+        <table class="table-container">
+          <thead class="table-head">
+            <tr>
+              <th>Name</th>
+              <th>Image</th>
+              <th>Tag</th>
+              <th>Status</th>
+              <samp></samp>
+              <samp></samp>
+              <samp></samp>
+            </tr>
+          </thead>
+          <tbody>
+            {%for container in containers%}
+            <tr>
+              <td>
+                <div class="">
+                  <a href="{%url 'Panel:Container' container.id%}"
+                    >{{container.name}}</a
+                  >
+                </div>
+              </td>
+
+              <td>{{container.image}}</td>
+              <td>{{container.tags}}</td>
+
+              <td class="status">
+                <span
+                  class="status {%if container.status == 'exited'%} disable {%elif container.status == 'running'%} active {%else%} unkown-state {%endif%}"
+                  >{{container.status}}</span
+                >
+              </td>
+              <td id="restart">
+                <a href="{%url 'Panel:Restart_Container' container.id%}">Restart</a>
+              </td>
+              <td id="turn-on-off">
+                <a href="{%url 'Panel:Toggle_Status' container.id%}" >Turn on/off</a>
+              </td>
+              <td id="remove">
+                <a href="{%url 'Panel:Delete_Container' container.id%}">Remove</a>
+              </td>
+            </tr>
+            {%endfor%}
+
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <div class="modals">
+      <button class="modal-button" id="modal-btn-newContainer">New Container</button>
+
+      <div class="modal" id="modal-newContainer">
+        <div class="modal-content">
+          <span class="modal-close">&times;</span>
+            <p><h1>my content</h1></p>
+            <p>
+              <form action="{% url 'Panel:Create_Container' %}" method="post" id="form-newContainer">
+                
+                <label for="name">
+                  <strong>Container Name</strong>
+                  <input type="text" name="name">
+                </label>
+                
+                <label for="image">
+                  <strong>Image</strong>
+                  <select name="image" id="images">
+                    <option value="redis">redis</option>
+                    <option value="python:3.10">python:3.10</option>
+                    <option value="nginx">nginx</option>
+                    <option value="ubutnu">ubuntu</option>
+                  </select>
+                </label>
+                
+                <label for="detach"><strong>Detach : </strong>
+                  <input type="checkbox" name="detach" id="detach" value="detached" >
+                </label>
+                
+                <button type="submit" id="btn-submit">Create</button>
+              </form>
+            </p>
+          </div>
+        </div>
+        
+        {% if messages %}
+        <div id="message-container" class="">
+          <ul class="messages">
+            {% for message in messages %}
+            <li class=""> <span {% if message.tags %} class="message-list-item {{ message.tags }}" {% endif %}>
+            {{ message }}
+          </span>
+          </li>
+          {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+  </div>
+  </body>
+  <script src="{% static 'panel/js/main.js' %}"></script>
+</html>
